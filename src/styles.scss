@@ -1,0 +1,143 @@
+$darkBlue: #122536;
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    >div {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+}
+
+//NAVBAR
+
+#nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $darkBlue;
+    color: white;
+    padding: 0 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+    #nav-bar {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+
+            &:hover {
+                color: #4da3ff;
+            }
+        }
+    }
+}
+
+//MAIN
+
+main {
+    flex: 1;
+}
+
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+}
+
+table {
+    border-bottom: 1px solid $darkBlue;
+    border-collapse: collapse;
+    width: 700px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+
+
+    td,
+    th {
+        border-bottom: 1px solid $darkBlue;
+        padding: 10px;
+    }
+
+    th {
+        border-top: 1px solid white;
+        background-color: $darkBlue;
+        color: white;
+        text-align: left;
+    }
+
+}
+
+.error-message{
+    color: red;
+    text-align: center;
+    padding: 100px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+//FOOTER
+
+footer {
+    display: flex;
+    align-items: center;
+    height: 6vh;
+    background: #122536;
+    color: white;
+    padding-left: 10px;
+
+    p {
+        margin: 0;
+    }
+}
+
+//SPINNER
+
+.spinner-wrapper {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.spinner {
+    border: 6px solid lightgray;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+.spinner-text {
+    font-size: 18px;
+    color: gray;
+    font-weight: bold;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
