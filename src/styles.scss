@@ -83,7 +83,47 @@ table {
 
 }
 
-.error-message{
+#books-table {
+    width: 1200px;
+
+    #deleteBtn {
+        background-color: #e53935;
+        color: whitesmoke;
+        border: 1px solid #e53935;
+        border-radius: 5px;
+        padding: 4px;
+        font-weight: bolder;
+        width: 70px;
+        transition: transform 0.3s ease;
+
+        &:hover {
+            background-color: #b71c1c;
+            color: #FFEBEB;
+            transform: scale(1.1);
+        }
+    }
+
+    #editBtn {
+        background-color: #4A90E2;
+        color: whitesmoke;
+        border: 1px solid #4A90E2;
+        border-radius: 5px;
+        padding: 4px;
+        font-weight: bolder;
+        width: 70px;
+        transition: transform 0.3s ease;
+
+        &:hover {
+            background-color: #3565A9;
+            color: #e6f0ff;
+            transform: scale(1.1);
+        }
+    }
+}
+
+
+
+.error-message {
     color: red;
     text-align: center;
     padding: 100px;

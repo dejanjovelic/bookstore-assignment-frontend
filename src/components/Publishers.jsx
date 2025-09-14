@@ -6,7 +6,6 @@ const Publishers = () => {
     const [publishers, setPublishers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    // const [message, setMessage] = useState('');
 
 
 
@@ -23,12 +22,12 @@ const Publishers = () => {
             } catch (error) {
                 if (error.status) {
                     if (error.status === 500){
-                        setErrorMessage("Server error. Please try later.")
+                        setErrorMessage("Server is temporarily unavailable. Please refresh or try again later.")
                     }
                 }else if (error.request){
-                    setErrorMessage("No answer from server")
+                    setErrorMessage("The server is not responding. Please try again later.")
                 }else{
-                    setErrorMessage("An error occured")
+                    setErrorMessage("Something went wrong. Please try again.")
                 }
                 console.log("An error occurred while fetching Publishers:", error);  
                 setIsLoading(false);              
