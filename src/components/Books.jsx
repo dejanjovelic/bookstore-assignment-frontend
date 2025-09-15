@@ -9,6 +9,7 @@ const Books = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    console.log(navigate)
 
     useEffect(() => {
         async function getAllBooksFromDB() {
@@ -44,24 +45,30 @@ const Books = () => {
         console.log(id)
         try {
             await deleteBook(id);
-            setBooks(prev=>prev.filter(book => book.id !== id));
+            setBooks(prev => prev.filter(book => book.id !== id));
 
         } catch (error) {
             console.log(`Error:`, error)
         }
     }
 
-    function handleEditBtn(id){
-navigate(`editBook/${id}`)
+    function handleEditBtn(id) {
+        navigate(`/editBook/${id}`, { relative: "path" });
     }
     console.log(books)
 
     if (isLoading) {
         return <Spinner />
     }
+
     if (errorMsg) {
-        return <p className="error-message">{errorMsg}</p>
-    }
+    return(
+    <div className="error-container">
+      <div className="error-message publishers">
+        {errorMsg}
+      </div>
+    </div>
+    )}
 
     function getFormatedDate(date) {
         const [year, month, day] = date.split('T')[0].split('-');
@@ -70,6 +77,8 @@ navigate(`editBook/${id}`)
 
     return (
         <div className="table-container">
+            <h2 className="table-title">List of Books</h2>
+
             <table id="books-table">
                 <thead>
                     <tr>
@@ -92,8 +101,8 @@ navigate(`editBook/${id}`)
                             <td>{book.isbn}</td>
                             <td>{book.author.fullName}</td>
                             <td>{book.publisher.name}</td>
-                            <td><button id="deleteBtn" onClick={()=>{handleDeleteBtn(book.id)}}>Delete</button></td>
-                            <td><button id="editBtn" onClick={()=>{handleEditBtn(book.id)}}>Edit</button></td>
+                            <td><button className="deleteBtn" onClick={() => { handleDeleteBtn(book.id) }}>Delete</button></td>
+                            <td><button className="editBtn" onClick={() => { handleEditBtn(book.id) }}>Edit</button></td>
                         </tr>
                     ))}
                 </tbody>
