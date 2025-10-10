@@ -9,14 +9,12 @@ const Books = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    console.log(navigate)
 
     useEffect(() => {
         async function getAllBooksFromDB() {
             setIsLoading(true);
             try {
                 const booksFromDB = await getAllBooks();
-                console.log(booksFromDB)
                 setTimeout(() => {
                     setBooks(booksFromDB);
                     setIsLoading(false);
@@ -42,7 +40,6 @@ const Books = () => {
     }, [])
 
     async function handleDeleteBtn(id) {
-        console.log(id)
         try {
             await deleteBook(id);
             setBooks(prev => prev.filter(book => book.id !== id));
@@ -55,7 +52,6 @@ const Books = () => {
     function handleEditBtn(id) {
         navigate(`/editBook/${id}`, { relative: "path" });
     }
-    console.log(books)
 
     if (isLoading) {
         return <Spinner />
@@ -83,11 +79,10 @@ const Books = () => {
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Number of pages</th>
-                        <th>Publish Date</th>
                         <th>ISBN</th>
                         <th>Author</th>
                         <th>Publisher</th>
+                        <th>Years since publication</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -96,11 +91,10 @@ const Books = () => {
                     {books.map(book => (
                         <tr key={book.id}>
                             <td>{book.title}</td>
-                            <td>{book.pageCount}</td>
-                            <td>{getFormatedDate(book.publishedDate)}</td>
                             <td>{book.isbn}</td>
-                            <td>{book.author.fullName}</td>
-                            <td>{book.publisher.name}</td>
+                            <td>{book.authorFullName}</td>
+                            <td>{book.publisherName}</td>
+                            <td>{book.yearsSincePublication}</td>
                             <td><button className="deleteBtn" onClick={() => { handleDeleteBtn(book.id) }}>Delete</button></td>
                             <td><button className="editBtn" onClick={() => { handleEditBtn(book.id) }}>Edit</button></td>
                         </tr>

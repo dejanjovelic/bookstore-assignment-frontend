@@ -40,7 +40,7 @@ const Publishers = () => {
   if (errorMessage) {
     return(
     <div className="error-container">
-      <div className="error-message publishers">
+      <div className="error-message">
         {errorMessage}
       </div>
     </div>
@@ -51,8 +51,6 @@ const Publishers = () => {
     return <Spinner />;
   }
 
-
-  console.log(publishers)
   return (
     <div className="table-container">
        <h2 className="table-title">List of Publishers</h2>
@@ -68,7 +66,7 @@ const Publishers = () => {
           {publishers.map((publisher) => (
             <tr key={publisher.id}>
               <td>{publisher.name}</td>
-              <td>{publisher.address}</td>
+              <td>{publisher.adress}</td>
               <td>{publisher.website}</td>
             </tr>
           ))}

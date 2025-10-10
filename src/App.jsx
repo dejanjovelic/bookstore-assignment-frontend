@@ -6,6 +6,7 @@ import CreateBook from "./components/CreateBook";
 import "./styles.scss";
 import Layout from "./components/DisplayLayout";
 import EditBook from "./components/EditBook";
+import Authors from "./components/Authors";
 
 const App = () => (
   <>
@@ -16,6 +17,7 @@ const App = () => (
           <Route path="books" element={<Books />} />
           <Route path="createBook" element={<CreateBook />} />
           <Route path="editBook/:id" element={<EditBook />} />
+          <Route path="authors" element={<Authors />} />
         </Route>
       </Routes>
     </BrowserRouter>

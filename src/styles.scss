@@ -139,9 +139,6 @@ table {
     padding: 6px;
 }
 
-
-
-
 .form-container {
     height: 100%;
     display: flex;
@@ -210,7 +207,7 @@ table {
     display: flex;
     justify-content: center;
 
-    .error-message.publishers {
+    .error-message{
         width: 500px;
     }
 }

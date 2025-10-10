@@ -10,6 +10,7 @@ const Header = () => {
             </div>
             <nav id="nav-bar">
                 <Link to={"publishers"}>Publishers</Link>
+                <Link to={"authors"}>Authors</Link>
                 <Link to="books">Books</Link>
                 <Link to={"createBook"}>Create Book</Link>
             </nav>
