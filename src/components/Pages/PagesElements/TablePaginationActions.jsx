@@ -3,7 +3,7 @@ import { Box, IconButton, useTheme } from "@mui/material";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import "../authors.styles.scss";
+import "../../../styles/authors.styles.scss";
 
 export function TablePaginationActions(props) {
     const theme = useTheme();

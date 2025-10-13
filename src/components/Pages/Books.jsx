@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllBooks, deleteBook } from "../services/BooksService";
-import Spinner from "./Spinner";
+import { getAllBooks, deleteBook } from "../../services/BooksService";
+import Spinner from "../Pages/PagesElements/Spinner";
 
 const Books = () => {
     const [books, setBooks] = useState([]);

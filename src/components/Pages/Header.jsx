@@ -13,6 +13,7 @@ const Header = () => {
                 <Link to={"authors"}>Authors</Link>
                 <Link to="books">Books</Link>
                 <Link to={"createBook"}>Create Book</Link>
+                <Link to={"publishers/sorted"}>Sorted Publishers</Link>
             </nav>
 
         </div>

@@ -6,12 +6,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import "../authors.styles.scss";
-import { getAuthorsPaginationData } from "../services/AuthorService";
+import "../../styles/global.styles.scss";
+import { getAuthorsPaginationData } from "../../services/AuthorService";
 import { TableFooter, TablePagination } from "@mui/material";
-import { TablePaginationActions } from "./TablePaginationActions";
+import { TablePaginationActions } from "./PagesElements/TablePaginationActions";
 import { useNavigate } from "react-router-dom";
-import Spinner from "./Spinner";
+import Spinner from "./PagesElements/Spinner";
 
 
 const Authors = () => {

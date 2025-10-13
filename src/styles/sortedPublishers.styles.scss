@@ -1,0 +1,17 @@
+@use "./global.styles.scss" as*;
+
+.table-container.sorted {
+    margin-top: 0 !important;
+}
+
+.sorted-publisher {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sort-dropdown-container {
+    display: flex;
+    width: 700px;
+}

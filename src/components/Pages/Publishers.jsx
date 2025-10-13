@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getAllPublishers } from "../services/PublishersService";
-import Spinner from "./Spinner";
+import { getAllPublishers } from "../../services/PublishersService";
+import Spinner from "./PagesElements/Spinner";
+import PublishersTable from "./PagesElements/PublishersTable";
+import "../../styles/publishers.styles.scss"
 
 const Publishers = () => {
   const [publishers, setPublishers] = useState([]);
@@ -38,40 +40,23 @@ const Publishers = () => {
   }, []);
 
   if (errorMessage) {
-    return(
-    <div className="error-container">
-      <div className="error-message">
-        {errorMessage}
+    return (
+      <div className="error-container">
+        <div className="error-message">
+          {errorMessage}
+        </div>
       </div>
-    </div>
-    )}
+    )
+  }
 
-    
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <div className="table-container">
-       <h2 className="table-title">List of Publishers</h2>
-      <table id="publishers-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Website</th>
-          </tr>
-        </thead>
-        <tbody>
-          {publishers.map((publisher) => (
-            <tr key={publisher.id}>
-              <td>{publisher.name}</td>
-              <td>{publisher.adress}</td>
-              <td>{publisher.website}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h2 className="table-title">List of Publishers</h2>
+      <PublishersTable publishers={publishers} />
     </div>
   );
 };

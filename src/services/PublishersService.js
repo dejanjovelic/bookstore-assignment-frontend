@@ -17,5 +17,15 @@ export async function createPublisher(publisherData) {
     const response = await AxiosConfig.post(RESORCE, publisherData, {
         headers:{'Content-Type':'application.json'}
     })
-    return response.data
+    return response.data;
 };
+
+export async function fetchSortTypes() {
+    const response = await AxiosConfig.get(`${RESORCE}/sortTypes`);
+    return response.data;
+}
+
+export async function fetchSortedPublishers(sortType) {
+    const response = await AxiosConfig.get(`${RESORCE}/sort?sortType=${sortType}`)
+    return response.data;
+}
