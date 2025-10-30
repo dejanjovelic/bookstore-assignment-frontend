@@ -3,23 +3,10 @@ import React, { useEffect, useState } from "react";
 import { fetchSortTypes } from "../../../services/PublishersService";
 import "../../../styles/publishers.styles.scss"
 
-const SortDropdown = ({ value, onSelect }) => {
-    const [sortTypes, setSortTypes] = useState([]);
-
+const SortDropdown = ({ sortType, onSelect, sortTypes }) => {
+    
     useEffect(() => {
-        const loadSortTypes = async () => {
-            try {
-                const sortTypesFromDb = await fetchSortTypes();
-                setSortTypes(sortTypesFromDb);
-            } catch (error) {
-                console.error(error.message);
-            }
-        };
-        loadSortTypes();
-    }, [])
-
-    useEffect(() => {
-  if (sortTypes.length > 0 && value === '') {
+  if (sortTypes.length > 0 && sortType === '') {
     onSelect(String(sortTypes[0].key));
   }
 }, [sortTypes]);
@@ -34,7 +21,7 @@ const SortDropdown = ({ value, onSelect }) => {
             {sortTypes.length > 0 && (
                 <Select
                     labelId="sort-label"
-                    value={value || ""}
+                    value={sortType || ""}
                     onChange={handleSortChange}
                 >
                     {sortTypes.map((type) => (

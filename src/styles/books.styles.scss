@@ -1,0 +1,10 @@
+@use "./global.styles.scss" as*;
+
+.sort-dropdown-container-main{
+    display: flex;
+    justify-content: center;
+}
+.sortDropdown-container{
+    width: 1200px;
+    align-self: flex-start;
+}

@@ -29,3 +29,13 @@ export async function deleteBook(id) {
     const response = await AxiosConfig.delete(`${RESOURCE}/${id}`);
     return response.data;
 }
+
+export async function getBooksSortTypes() {
+    const response = await AxiosConfig.get(`${RESOURCE}/sortTypes`)
+    return response.data;
+}
+
+export async function fetchSortedBooks(sortType) {
+    const response = await AxiosConfig.get(`${RESOURCE}/sort?sortType=${sortType}`);
+    return response.data;
+}
