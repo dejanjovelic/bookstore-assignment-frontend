@@ -2,9 +2,14 @@
 
 .sort-dropdown-container-main{
     display: flex;
+    // flex-direction: column;
     justify-content: center;
+    margin: 10px 0;
 }
 .sortDropdown-container{
-    width: 1200px;
+    width: 300px;
     align-self: flex-start;
+}
+.filter-container{
+    width: 900px;
 }

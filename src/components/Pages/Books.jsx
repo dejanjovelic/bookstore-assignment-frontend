@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllBooks, deleteBook, fetchSortedBooks, getBooksSortTypes } from "../../services/BooksService";
+import { deleteBook, fetchFilteredAndSortedBooks, fetchSortedBooks, getBooksSortTypes } from "../../services/BooksService";
 import Spinner from "../Pages/PagesElements/Spinner";
 import SortDropdown from "./PagesElements/SortDropdown";
 import "../../styles/books.styles.scss"
+import FilterSection from "./PagesElements/FilterSection";
 
 const Books = () => {
     const [books, setBooks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-    const [message, setMessage] = useState('');
-    const navigate = useNavigate();
     const [sortType, setSortType] = useState(0);
     const [sortTypes, setSortTypes] = useState([]);
+    const [filter, setFilter] = useState([]);
+    const navigate = useNavigate();
 
 
-    const getAllBooksFromDb = async () => {
+    const getAllSortedBooksFromDb = async () => {
         try {
             const booksFromDb = await fetchSortedBooks(sortType);
             setBooks(booksFromDb);
@@ -62,7 +63,7 @@ const Books = () => {
     useEffect(() => {
         setIsLoading(true);
 
-        getAllBooksFromDb();
+        getAllSortedBooksFromDb();
         getBooksSortTypesfromDb();
 
         setTimeout(() => {
@@ -71,7 +72,12 @@ const Books = () => {
     }, []);
 
     useEffect(() => {
-        getAllBooksFromDb();
+        if (filter && Object.keys(filter).length > 0) {
+            filterAndSortBooks(filter)
+        } else {
+            getAllSortedBooksFromDb();
+        }
+
     }, [sortType]);
 
     async function handleDeleteBtn(id) {
@@ -80,7 +86,16 @@ const Books = () => {
             setBooks(prev => prev.filter(book => book.id !== id));
 
         } catch (error) {
-            console.log(`Error:`, error)
+            if (error.status) {
+                if (error.status === 500) {
+                    setErrorMsg("Server is temporarily unavailable. Please refresh or try again later.");
+                }
+            } else if (error.request) {
+                setErrorMsg("The server is not responding. Please try again later.");
+            } else {
+                setErrorMsg("Something went wrong. Please try again.");
+            }
+            console.log(`An error occured while deliting books:`, error);
         }
     }
 
@@ -106,6 +121,30 @@ const Books = () => {
         setSortType(newSortType);
     }
 
+    function filterAndSortBooks(filter) {
+        const getFilteredAndSortedBooks = async () => {
+            try {
+                const filteredAndSortedBooksFromDb = await fetchFilteredAndSortedBooks(filter, sortType);
+                setFilter(filter)
+                setBooks(filteredAndSortedBooksFromDb);
+            } catch (error) {
+                if (error.status) {
+                    if (error.status === 500) {
+                        setErrorMsg("Server is temporarily unavailable. Please refresh or try again later.");
+                    }
+                } else if (error.status === 400) {
+                    setErrorMsg("Bad request data.");
+                } else if (error.request) {
+                    setErrorMsg("The server is not responding. Please try again later.");
+                } else {
+                    setErrorMsg("Something went wrong. Please try again.");
+                }
+                console.log(`An error occured while fetching books:`, error);
+            }
+        }
+        getFilteredAndSortedBooks();
+    }
+
     function getFormatedDate(date) {
         const [year, month, day] = date.split('T')[0].split('-');
         return `${day}.${month}.${year}.`
@@ -118,6 +157,9 @@ const Books = () => {
                 <div className="sortDropdown-container">
                     <SortDropdown sortType={sortType} sortTypes={sortTypes} onSelect={handleSortTypeChange} />
                 </div>
+                <div className="filter-container">
+                    <FilterSection books={books} onfilter={filterAndSortBooks} />
+                </div>
             </div>
 
             <table id="books-table">
@@ -126,6 +168,7 @@ const Books = () => {
                         <th>Title</th>
                         <th>ISBN</th>
                         <th>Author</th>
+                        <th>Author Date of birth</th>
                         <th>Publisher</th>
                         <th>Publication year</th>
                         <th></th>
@@ -138,6 +181,7 @@ const Books = () => {
                             <td>{book.title}</td>
                             <td>{book.isbn}</td>
                             <td>{book.authorFullName}</td>
+                            <td>{getFormatedDate(book.authorDateOfBirth)}</td>
                             <td>{book.publisherName}</td>
                             <td>{getFormatedDate(book.publishedDate)}</td>
                             <td><button className="deleteBtn" onClick={() => { handleDeleteBtn(book.id) }}>Delete</button></td>

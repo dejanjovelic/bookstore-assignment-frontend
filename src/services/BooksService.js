@@ -39,3 +39,7 @@ export async function fetchSortedBooks(sortType) {
     const response = await AxiosConfig.get(`${RESOURCE}/sort?sortType=${sortType}`);
     return response.data;
 }
+export async function fetchFilteredAndSortedBooks(filter, sortType) {
+    const response = await AxiosConfig.post(`${RESOURCE}/filterAndSort?sortType=${sortType}`, filter);
+    return response.data;
+}

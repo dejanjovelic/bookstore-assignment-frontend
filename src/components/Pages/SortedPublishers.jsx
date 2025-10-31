@@ -19,7 +19,16 @@ const SortedPublishers = () => {
             const sortTypesFromDb = await fetchSortTypes();
             setSortTypes(sortTypesFromDb);
         } catch (error) {
-            console.error(error.message);
+            if (error.status) {
+                if (error.status === 500) {
+                    setErrorMessage("Server is temporarily unavailable. Please refresh or try again later.")
+                }
+            } else if (error.request) {
+                setErrorMessage("The server is not responding. Please try again later.")
+            } else {
+                setErrorMessage("Something went wrong. Please try again.")
+            }
+            console.log("An error occurred while fetching Publishers:", error);
         }
     };
 
@@ -78,11 +87,9 @@ const SortedPublishers = () => {
         )
     }
 
-
     if (isLoading) {
         return <Spinner />;
     }
-
 
     return (
         <div className="sorted-publisher">
