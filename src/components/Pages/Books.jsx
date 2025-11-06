@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteBook, fetchFilteredAndSortedBooks, fetchSortedBooks, getBooksSortTypes } from "../../services/BooksService";
 import Spinner from "../Pages/PagesElements/Spinner";
 import SortDropdown from "./PagesElements/SortDropdown";
 import "../../styles/books.styles.scss"
 import FilterSection from "./PagesElements/FilterSection";
+import UserContext from "./UserContext";
 
 const Books = () => {
     const [books, setBooks] = useState([]);
@@ -14,6 +15,8 @@ const Books = () => {
     const [sortTypes, setSortTypes] = useState([]);
     const [filter, setFilter] = useState([]);
     const navigate = useNavigate();
+    const { user } = useContext(UserContext);
+    console.log(user);
 
 
     const getAllSortedBooksFromDb = async () => {
@@ -171,8 +174,11 @@ const Books = () => {
                         <th>Author Date of birth</th>
                         <th>Publisher</th>
                         <th>Publication year</th>
-                        <th></th>
-                        <th></th>
+                        {user?.role == "Editor" && (
+                            <>
+                                <th></th>
+                                <th></th>
+                            </>)}
                     </tr>
                 </thead>
                 <tbody>
@@ -184,8 +190,12 @@ const Books = () => {
                             <td>{getFormatedDate(book.authorDateOfBirth)}</td>
                             <td>{book.publisherName}</td>
                             <td>{getFormatedDate(book.publishedDate)}</td>
-                            <td><button className="deleteBtn" onClick={() => { handleDeleteBtn(book.id) }}>Delete</button></td>
-                            <td><button className="editBtn" onClick={() => { handleEditBtn(book.id) }}>Edit</button></td>
+                            {user?.role === "Editor" &&
+                                <>
+                                    <td><button className="deleteBtn" onClick={() => { handleDeleteBtn(book.id) }}>Delete</button></td>
+                                    <td><button className="editBtn" onClick={() => { handleEditBtn(book.id) }}>Edit</button></td>
+                                </>
+                            }
                         </tr>
                     ))}
                 </tbody>

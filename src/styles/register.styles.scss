@@ -1,0 +1,88 @@
+@use "./global.styles.scss" as *;
+
+.registration-main-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    flex: 1;
+
+    #registration-title {
+        text-align: center;
+        color: $darkBlue;
+    }
+
+    .registration-form {
+        width: 500px;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        position: absolute;
+
+
+        input {
+
+            display: inline-block;
+            margin: 5px;
+            width: 90%;
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        label {
+            margin-left: 5px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 20px;
+            width: 90%;
+        }
+
+        .submit-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            margin: 20px 0 10px 5px;
+            background-color: #4A90E2;
+            color: whitesmoke;
+            border: 1px solid #4A90E2;
+            border-radius: 5px;
+            padding: 5px;
+            font-weight: bolder;
+            font-size: 18px;
+            width: 100px;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                background-color: #3565A9;
+                color: #e6f0ff;
+                transform: scale(1.1);
+            }
+        }
+    }
+}
+
+.error-message-register {
+    display: block;
+    color: red;
+    text-align: center;
+    width: 100%;
+    min-height: 20px;
+}
+
+.password-wrapper {
+    position: relative;
+
+    .eye-icon {
+        position: absolute;
+        right: 40px;
+        top: 52%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    label {
+        width: 90%;
+    }
+}
