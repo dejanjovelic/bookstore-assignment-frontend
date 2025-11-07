@@ -13,6 +13,7 @@ import Register from "./components/Pages/Register";
 import UserProfile from "./components/Pages/UserProfile";
 import UserContext from "./components/Pages/UserContext";
 import Logout from "./components/Pages/LogoutBtn";
+import GoogleCallback from "./components/Pages/GoogleCallback";
 
 
 
@@ -48,6 +49,7 @@ const App = () => {
               <Route path="login" element={<Login/>}/>
               <Route path="register" element={<Register/>}/>
               <Route path="profile" element={<UserProfile/>}/>
+              <Route path="google-callback" element={<GoogleCallback />}/>
               </Route>
           </Routes>
         </BrowserRouter>

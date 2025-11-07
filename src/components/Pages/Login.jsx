@@ -40,8 +40,14 @@ const Login = () => {
             }
             console.log(`An error occured while loging user:`, error);
         }
-
     }
+
+    const handleGoogleLogin = () => {
+        window.open(
+            "http://localhost:5234/api/Auth/google-login",
+            "width=500,height=600"
+        );
+    };
 
 
     function showError(message) {
@@ -74,12 +80,19 @@ const Login = () => {
                             </span>
                         </div>
                         <div className="submit-container">
-                            <button type="submit">Submit</button>
-                        </div>
+                            <button type="submit">Login</button>
+                            <button id="login-with-google" onClick={handleGoogleLogin}>
+                                Login with Google
+                            </button>
 
+                        </div>
                     </form>
+
+
                 </div>
             </div>
+
+
 
             {errorMsg && (
                 <div className="error-container">

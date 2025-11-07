@@ -1,10 +1,11 @@
 @use "./global.styles.scss" as *;
 
-.profile-main-container{
+.profile-main-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    .profile-container{
+
+    .profile-container {
         width: 400px;
         margin-top: 100px;
         box-shadow: 0 12px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.08);
@@ -14,12 +15,13 @@
         align-items: center;
         padding: 15px;
         border-radius: 10px;
-        img{
+
+        img {
             width: 200px;
             height: 200px;
         }
 
-        p{
+        p {
             font-size: 18px;
 
         }
