@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Publishers from "./components/Pages/Publishers";
 import Books from "./components/Pages/Books";
@@ -12,13 +12,16 @@ import Login from "./components/Pages/Login";
 import Register from "./components/Pages/Register";
 import UserProfile from "./components/Pages/UserProfile";
 import UserContext from "./components/Pages/UserContext";
-import Logout from "./components/Pages/LogoutBtn";
 import GoogleCallback from "./components/Pages/GoogleCallback";
+import VolumesPage from "./components/Pages/VolumesPage";
+import IssuesPage from "./components/Pages/IssuesPage";
+import IssueForm from "./components/Forms/IssueForm";
+
 
 
 
 const App = () => {
-  const[user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,10 +36,10 @@ const App = () => {
     }
   }, []);
 
- 
+
   return (
     <>
-    <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -46,14 +49,22 @@ const App = () => {
               <Route path="createBook" element={<CreateBook />} />
               <Route path="editBook/:id" element={<EditBook />} />
               <Route path="authors" element={<Authors />} />
-              <Route path="login" element={<Login/>}/>
-              <Route path="register" element={<Register/>}/>
-              <Route path="profile" element={<UserProfile/>}/>
-              <Route path="google-callback" element={<GoogleCallback />}/>
-              </Route>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="profile" element={<UserProfile />} />
+              <Route path="google-callback" element={<GoogleCallback />} />
+              {user?.role === "Editor" && (
+                <>
+                  <Route path="volumes" element={<VolumesPage />} />
+                  <Route path="issues" element={<IssuesPage />} />
+                  <Route path="issueForm" element={<IssueForm />} />
+                </>
+              )}
+
+            </Route>
           </Routes>
         </BrowserRouter>
-        </UserContext.Provider>
+      </UserContext.Provider>
     </>
   );
 };

@@ -1,0 +1,63 @@
+@use "./global.styles.scss" as *;
+
+.issues-table-container{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+#issues-table {
+    width: 90%;
+    min-width: 1000px;
+
+
+    th:nth-child(1),
+    td:nth-child(1) {
+        width: 5%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+        width: 25%;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+        width: 50%;
+
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+        width: 10%;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5) {
+        width: 10%;
+    }
+
+    td {
+        vertical-align: top;
+        padding: 8px;
+    }
+
+}
+
+.issues-saveBtn {
+    background-color: #4A90E2;
+    border: 1px solid #4A90E2;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 160px;
+    margin-right: 8px;
+    transition: transform 0.3 ease;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+}

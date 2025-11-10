@@ -1,0 +1,53 @@
+@use "./global.styles.scss" as *;
+
+.main-volume-container {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-container {
+    display: inline-block;
+    width: 700px;
+
+    #volume-search-input {
+        width: 80%;
+        height: 24px;
+        margin-right: 10px;
+        font-size: 17px;
+        border-radius: 12px;
+        padding: 10px;
+        border: 1px solid lightgray;
+        outline: lightgray;
+        padding-left: 10px;
+    }
+
+    .volumes-searchBtn {
+        background-color: #4A90E2;
+        border: 1px solid #4A90E2;
+        color: white;
+        padding: 10px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        width: 100px;
+        transition: transform 0.3 ease;
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+
+        }
+    }
+
+}
+
+.volumes-title {
+    margin: 5px 5px 10px 5px;
+}
+
+.volumes-subtitle {
+    margin: 5px 5px 15px 5px;
+}
