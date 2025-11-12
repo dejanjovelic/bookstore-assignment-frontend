@@ -6,6 +6,9 @@ import SortDropdown from "./PagesElements/SortDropdown";
 import "../../styles/books.styles.scss"
 import FilterSection from "./PagesElements/FilterSection";
 import UserContext from "./UserContext";
+import ReviewBook from "./ReviewBook";
+import { get } from "react-hook-form";
+import { fetchAllUserReviews } from "../../services/ReviewService";
 
 const Books = () => {
     const [books, setBooks] = useState([]);
@@ -17,6 +20,14 @@ const Books = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
     console.log(user);
+    const [open, setOpen] = useState(false);
+    const [selectedBookId, setSelectedBookId] = useState("");
+    const [selectedBookITitle, setSelectedBookTitle] = useState("");
+    const [usersReviews, setUsersReviews] = useState([]);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
 
     const getAllSortedBooksFromDb = async () => {
@@ -62,12 +73,23 @@ const Books = () => {
         }
     }
 
+    const getAllUsersReviewsFromDb = async () => {
+        try {
+            const usersReviewsFromDb = await fetchAllUserReviews();
+            console.log(usersReviewsFromDb);
+            setUsersReviews(usersReviewsFromDb);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
     useEffect(() => {
         setIsLoading(true);
 
         getAllSortedBooksFromDb();
         getBooksSortTypesfromDb();
+        getAllUsersReviewsFromDb();
 
         setTimeout(() => {
             setIsLoading(false);
@@ -119,6 +141,13 @@ const Books = () => {
             </div>
         )
     }
+
+    function handleReviewBtn(bookid, bookTitle) {
+        setSelectedBookId(bookid);
+        setSelectedBookTitle(bookTitle);
+        setOpen(true);
+    }
+
 
     const handleSortTypeChange = (newSortType) => {
         setSortType(newSortType);
@@ -174,6 +203,7 @@ const Books = () => {
                         <th>Author Date of birth</th>
                         <th>Publisher</th>
                         <th>Publication year</th>
+                        {user && <th></th>}
                         {user?.role == "Editor" && (
                             <>
                                 <th></th>
@@ -190,6 +220,18 @@ const Books = () => {
                             <td>{getFormatedDate(book.authorDateOfBirth)}</td>
                             <td>{book.publisherName}</td>
                             <td>{getFormatedDate(book.publishedDate)}</td>
+                            {user &&
+                                <td>
+                                    <button
+                                        className="reviewBtn"
+                                        onClick={() => { handleReviewBtn(book.id, book.title) }}
+                                        disabled={usersReviews.some(review => review.bookId === book.id)}
+
+                                    >
+                                        Review Book
+                                    </button>
+                                </td>
+                            }
                             {user?.role === "Editor" &&
                                 <>
                                     <td><button className="deleteBtn" onClick={() => { handleDeleteBtn(book.id) }}>Delete</button></td>
@@ -200,7 +242,16 @@ const Books = () => {
                     ))}
                 </tbody>
             </table>
+            {open && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <ReviewBook open={open} handleClose={handleClose} bookid={selectedBookId} bookTitle={selectedBookITitle} />
+                    </div>
+                </div>
+            )}
+
         </div>
+
     )
 }
 

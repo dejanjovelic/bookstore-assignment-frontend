@@ -209,6 +209,30 @@ table {
         transform: scale(1.1);
         cursor: pointer;
     }
+}
+
+.reviewBtn {
+    background-color: #4A90E2;
+    color: whitesmoke;
+    border: 1px solid #4A90E2;
+    border-radius: 5px;
+    padding: 4px;
+    font-weight: bolder;
+    width: 100px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+        background-color: #3565A9;
+        color: #e6f0ff;
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+    &:disabled{
+        background-color: gray;
+        color: white;
+        transform: none;
+        border: gray;
+    }
 
 }
 

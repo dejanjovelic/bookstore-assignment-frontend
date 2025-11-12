@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserContext from "./UserContext";
 import "../../styles/login.styles.scss";
 import { Button } from "@mui/material";
@@ -14,6 +14,8 @@ const Login = () => {
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [isGoogleLogin, setIsGoogleLogin] = useState(false);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,16 +45,20 @@ const Login = () => {
     }
 
     const handleGoogleLogin = () => {
+        setIsGoogleLogin(true);
         window.open(
             "http://localhost:5234/api/Auth/google-login",
             "width=500,height=600"
         );
     };
 
-
+   
     function showError(message) {
-        setErrorMsg(message)
-        setTimeout(() => setErrorMsg(''), 2000);
+        if (!isGoogleLogin) {
+            setErrorMsg(message)
+            setTimeout(() => setErrorMsg(''), 2000);
+        }
+
     }
 
     return (
