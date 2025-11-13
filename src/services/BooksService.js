@@ -9,6 +9,10 @@ export async function getAllBooks() {
     const response = await AxiosConfig.get(RESOURCE);
     return response.data;
 };
+export async function getAllPaginated(page, pageSize) {
+    const response = AxiosConfig.get(`${RESOURCE}/paging?page=${page}&pageSize=${pageSize}`);
+    return (await response).data;
+}
 
 export async function getBookById(id) {
     const response = await AxiosConfig.get(`${RESOURCE}/${id}`);
@@ -35,11 +39,11 @@ export async function getBooksSortTypes() {
     return response.data;
 }
 
-export async function fetchSortedBooks(sortType) {
-    const response = await AxiosConfig.get(`${RESOURCE}/sort?sortType=${sortType}`);
+export async function fetchSortedAndPaginatedBooks(sortType, page, pageSize) {
+    const response = await AxiosConfig.get(`${RESOURCE}/sortedAndPaginated?sortType=${sortType}&page=${page}&pageSize=${pageSize}`);
     return response.data;
 }
-export async function fetchFilteredAndSortedBooks(filter, sortType) {
-    const response = await AxiosConfig.post(`${RESOURCE}/filterAndSort?sortType=${sortType}`, filter);
+export async function fetchFilteredAndSortedAndPaginatedBooks(filter, sortType, page, pageSize) {
+    const response = await AxiosConfig.post(`${RESOURCE}/filteredAndSortedAndPaginated?sortType=${sortType}&page=${page}&pageSize=${pageSize}`, filter);
     return response.data;
 }

@@ -1,39 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteBook, fetchFilteredAndSortedBooks, fetchSortedBooks, getBooksSortTypes } from "../../services/BooksService";
+import { deleteBook, fetchFilteredAndSortedAndPaginatedBooks, fetchSortedAndPaginatedBooks, getBooksSortTypes } from "../../services/BooksService";
 import Spinner from "../Pages/PagesElements/Spinner";
 import SortDropdown from "./PagesElements/SortDropdown";
 import "../../styles/books.styles.scss"
 import FilterSection from "./PagesElements/FilterSection";
 import UserContext from "./UserContext";
 import ReviewBook from "./ReviewBook";
-import { get } from "react-hook-form";
 import { fetchAllUserReviews } from "../../services/ReviewService";
+import { TablePagination } from "@mui/material";
 
 const Books = () => {
-    const [books, setBooks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-    const [sortType, setSortType] = useState(0);
     const [sortTypes, setSortTypes] = useState([]);
+    const [sortType, setSortType] = useState(0);
+    const [books, setBooks] = useState([]);
     const [filter, setFilter] = useState([]);
+    const [page, setPage] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+    const [totalRows, setTotalRows] = useState(0);
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    console.log(user);
     const [open, setOpen] = useState(false);
     const [selectedBookId, setSelectedBookId] = useState("");
     const [selectedBookITitle, setSelectedBookTitle] = useState("");
     const [usersReviews, setUsersReviews] = useState([]);
+    console.log("Books", books);
+
 
     const handleClose = () => {
         setOpen(false);
     };
 
 
-    const getAllSortedBooksFromDb = async () => {
+    const getAllSortedAndPaginatedBooksFromDb = async () => {
         try {
-            const booksFromDb = await fetchSortedBooks(sortType);
-            setBooks(booksFromDb);
+            const booksFromDb = await fetchSortedAndPaginatedBooks(sortType, page + 1, pageSize);
+            setBooks(booksFromDb.items);
+            setTotalRows(booksFromDb.totalRowCount);
+
+            console.log(booksFromDb);
         } catch (error) {
             if (error.status) {
                 if (error.status === 500) {
@@ -83,11 +90,39 @@ const Books = () => {
         }
     }
 
+    async function getfilteredAndSortedAndPaginatedBooks(newFilter = filter) {
+        try {
+            const filteredAndSortedAndPaginatedBooksFromDb = await fetchFilteredAndSortedAndPaginatedBooks(
+                newFilter, 
+                sortType, 
+                page +1, 
+                pageSize
+            );
+            setFilter(newFilter)
+            setBooks(filteredAndSortedAndPaginatedBooksFromDb.items);
+            setTotalRows(filteredAndSortedAndPaginatedBooksFromDb.totalRowCount);
+        } catch (error) {
+            if (error.status) {
+                if (error.status === 500) {
+                    setErrorMsg("Server is temporarily unavailable. Please refresh or try again later.");
+                }
+            } else if (error.status === 400) {
+                setErrorMsg("Bad request data.");
+            } else if (error.request) {
+                setErrorMsg("The server is not responding. Please try again later.");
+            } else {
+                setErrorMsg("Something went wrong. Please try again.");
+            }
+            console.log(`An error occured while fetching books:`, error);
+        }
+
+    }
+
 
     useEffect(() => {
         setIsLoading(true);
 
-        getAllSortedBooksFromDb();
+        getAllSortedAndPaginatedBooksFromDb(page);
         getBooksSortTypesfromDb();
         getAllUsersReviewsFromDb();
 
@@ -98,12 +133,12 @@ const Books = () => {
 
     useEffect(() => {
         if (filter && Object.keys(filter).length > 0) {
-            filterAndSortBooks(filter)
+            getfilteredAndSortedAndPaginatedBooks(filter, page)
         } else {
-            getAllSortedBooksFromDb();
+            getAllSortedAndPaginatedBooksFromDb(page);
         }
 
-    }, [sortType]);
+    }, [sortType, page , pageSize]);
 
     async function handleDeleteBtn(id) {
         try {
@@ -148,34 +183,22 @@ const Books = () => {
         setOpen(true);
     }
 
+    function handleChangePageSize(event) {
+        console.log("rowsPerPage value:", +event.target.value);
+        setPageSize(Number(+event.target.value))
+        setPage(0);
+    }
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
 
     const handleSortTypeChange = (newSortType) => {
         setSortType(newSortType);
     }
 
-    function filterAndSortBooks(filter) {
-        const getFilteredAndSortedBooks = async () => {
-            try {
-                const filteredAndSortedBooksFromDb = await fetchFilteredAndSortedBooks(filter, sortType);
-                setFilter(filter)
-                setBooks(filteredAndSortedBooksFromDb);
-            } catch (error) {
-                if (error.status) {
-                    if (error.status === 500) {
-                        setErrorMsg("Server is temporarily unavailable. Please refresh or try again later.");
-                    }
-                } else if (error.status === 400) {
-                    setErrorMsg("Bad request data.");
-                } else if (error.request) {
-                    setErrorMsg("The server is not responding. Please try again later.");
-                } else {
-                    setErrorMsg("Something went wrong. Please try again.");
-                }
-                console.log(`An error occured while fetching books:`, error);
-            }
-        }
-        getFilteredAndSortedBooks();
-    }
+
 
     function getFormatedDate(date) {
         const [year, month, day] = date.split('T')[0].split('-');
@@ -190,7 +213,10 @@ const Books = () => {
                     <SortDropdown sortType={sortType} sortTypes={sortTypes} onSelect={handleSortTypeChange} />
                 </div>
                 <div className="filter-container">
-                    <FilterSection books={books} onfilter={filterAndSortBooks} />
+                    <FilterSection 
+                    books={books} 
+                    onfilter={getfilteredAndSortedAndPaginatedBooks} 
+                    />
                 </div>
             </div>
 
@@ -240,6 +266,17 @@ const Books = () => {
                             }
                         </tr>
                     ))}
+                    <tr>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 50, 100]}
+                            count={totalRows}
+                            rowsPerPage={pageSize}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangePageSize}
+                        />
+
+                    </tr>
                 </tbody>
             </table>
             {open && (

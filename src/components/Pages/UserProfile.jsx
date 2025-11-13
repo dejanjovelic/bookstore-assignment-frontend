@@ -63,17 +63,3 @@ const UserProfile = () => {
     )
 }
 export default UserProfile;
-
-
-// email
-// :
-// "mich85@gmail.com"
-// name
-// :
-// "Michael"
-// surname
-// :
-// "Mitchell"
-// username
-// :
-// "mich85"

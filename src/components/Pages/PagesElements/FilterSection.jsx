@@ -30,7 +30,7 @@ const FilterSection = ({ books, onfilter }) => {
     useEffect(() => {
         setAuthorsFullNames([...new Set(books.map(book => book.authorFullName))]
             .map((name) => name))
-    }, [])
+    }, [books])
 
     const handleAuthorsFullNameChange = (event) => {
         setChoosenAuthorFullName(event.target.value)
