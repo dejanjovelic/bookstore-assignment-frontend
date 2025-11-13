@@ -27,6 +27,17 @@ const FilterSection = ({ books, onfilter }) => {
         })
     }
 
+    const resetFilter = () => {
+        setTitle('');
+        setPublishedDateFrom(null);
+        setPublishedDateTo(null);
+        setChoosenAuthorFullName('');
+        setAuthorFirstName('');
+        setAuthorDateOfBirthFrom(null);
+        setAuthorDateOfBirthTo(null);
+        onfilter({});
+    }
+
     useEffect(() => {
         setAuthorsFullNames([...new Set(books.map(book => book.authorFullName))]
             .map((name) => name))
@@ -110,8 +121,12 @@ const FilterSection = ({ books, onfilter }) => {
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid item size={4}>
+                <Grid item size={6}>
                     <Button variant="outlined" onClick={filter}>Filter</Button>
+                    
+                </Grid>
+                <Grid item size={6}>
+                    <Button variant="outlined" onClick={resetFilter}>Reset</Button>
                 </Grid>
             </Grid>
         </Box>
